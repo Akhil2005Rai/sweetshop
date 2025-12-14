@@ -3,6 +3,7 @@ import Login from "./login.jsx";
 import { auth } from "./firebase";
 import emailVerify from "./assets/email.png";
 import HomePage from "./pages/home.jsx";
+import './App.css'
 import {
   onAuthStateChanged,
   signOut,
@@ -11,7 +12,7 @@ import {
 
 function App() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // 👈 added
+  const [loading, setLoading] = useState(true);
   const [resendCooldown, setResendCooldown] = useState(0);
   const [message, setMessage] = useState("");
 
@@ -96,7 +97,7 @@ function App() {
                   Please click the link in the email to verify your account and
                   complete your registration.
                 </div>
-                <div className="details">
+                <div className="details" className="bold">
                   If you don’t see the email, kindly check your spam or junk
                   folder.
                 </div>
@@ -134,13 +135,13 @@ function App() {
               </div>
             </div>
 
-            <div className="right">
+            {/* <div className="right">
               <img
                 src={emailVerify}
                 alt="Email verification"
                 className="auth-logo"
               />
-            </div>
+            </div> */}
           </div>
         )
       ) : (

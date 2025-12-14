@@ -3,7 +3,10 @@ import {
   doc,
   getDoc,
   updateDoc,
-  arrayRemove
+  addDoc,
+  collection,
+  arrayUnion,
+  Timestamp
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { db } from "../../firebase.js";
@@ -30,6 +33,8 @@ const Cart = () => {
     if (!user || cartItems.length === 0) return;
 
     try {
+      let totalAmount = 0;
+
       for (let item of cartItems) {
         const itemRef = doc(db, "items", item.id);
         const itemSnap = await getDoc(itemRef);
@@ -49,15 +54,33 @@ const Cart = () => {
         await updateDoc(itemRef, {
           quantity: stock - 1
         });
+
+        totalAmount += item.price;
       }
 
+      const orderCode = Math.floor(1000 + Math.random() * 9000);
+
+      const orderData = {
+        userId: user.uid,
+        items: cartItems,
+        totalAmount,
+        delivered: false,
+        orderCode,
+        createdAt: Timestamp.now()
+      };
+
+      // Global orders collection
+      await addDoc(collection(db, "orders"), orderData);
+
+      // User orders history
       const userRef = doc(db, "users", user.uid);
       await updateDoc(userRef, {
-        cart: []
+        cart: [],
+        orders: arrayUnion(orderData)
       });
 
       setCartItems([]);
-      alert("Order placed successfully 🎉");
+      alert(`Order placed successfully 🎉\nOrder Code: ${orderCode}`);
 
     } catch (err) {
       console.error(err);
@@ -66,7 +89,7 @@ const Cart = () => {
   };
 
   if (!cartItems.length) {
-    return <h2 style={{ textAlign: "center" }}>Your cart is empty 🛒</h2>;
+    return <div className="noitem">Your cart is empty</div>;
   }
 
   return (
@@ -85,7 +108,7 @@ const Cart = () => {
         ))}
       </div>
 
-      <div style={{ textAlign: "center", marginTop: "30px" }}>
+      <div>
         <button className="cart-btn added" onClick={placeOrder}>
           Place Order
         </button>
