@@ -115,7 +115,7 @@ function Login({ onLogin }) {
               <div className="greet">Verify Your Email</div>
               <div className="desc">
                 We’ve sent a verification link to <b>{email}</b>.<br />
-                Please check your inbox (and spam folder) to verify your account.<br />
+                <b>Please check your inbox (and spam folder) to verify your account.</b><br />
                 Once verified, you’ll be automatically redirected to the app.
               </div>
 

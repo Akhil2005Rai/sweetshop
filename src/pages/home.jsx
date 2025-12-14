@@ -57,7 +57,7 @@ const HomePage = () => {
                             <img src={logo} alt="" srcset="" className='nlogo'/>  
                             <div className="nmain">
                                 <div className="nname">
-                                    Dessert Junction Sweets
+                                    Dessert Junction
                                 </div>
                                 <div className="nslogan">
                                     Rishton ki meethi shuruaat
@@ -68,9 +68,7 @@ const HomePage = () => {
                             <div className="nopts" onClick={()=>{
                                 setScreen(0)
                             }}>Home</div>
-                            <div className="nopts" onClick={()=>{
-                                setScreen(1)
-                            }}>Browse</div>
+                            
                             <div className="nopts" onClick={()=>{
                                 setScreen(2)
                             }}>Cart</div>
